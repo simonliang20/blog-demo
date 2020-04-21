@@ -1,19 +1,44 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <el-row class="tac">
+      <el-col :span="3">
+        <el-menu default-active="2" class="el-menu-vertical-demo" @select="handleSelectMunu">
+          <el-menu-item v-for="(item, index) in menu" :key="`menu-${index}`" :index="index + ''">
+            <i class="el-icon-setting"></i>
+            <span slot="title">{{ item.name }}</span>
+          </el-menu-item>
+        </el-menu>
+      </el-col>
+      <el-col :span="21">
+        <router-view></router-view>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  name: "App",
+  data() {
+    return {
+      menu: [
+        {
+          name: "demo1"
+        },
+        {
+          name: "demo2"
+        }
+      ]
+    };
+  },
+  methods: {
+    handleSelectMunu(index) {
+      this.$router.push({
+        name: this.menu[index].name
+      });
+    }
   }
-}
+};
 </script>
 
 <style>
