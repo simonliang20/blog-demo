@@ -2,7 +2,7 @@
   <div id="app">
     <el-row class="tac">
       <el-col :span="3">
-        <el-menu default-active="2" class="el-menu-vertical-demo" @select="handleSelectMunu">
+        <el-menu default-active="0" class="el-menu-vertical-demo" @select="handleSelectMunu">
           <el-menu-item v-for="(item, index) in menu" :key="`menu-${index}`" :index="index + ''">
             <i class="el-icon-setting"></i>
             <span slot="title">{{ item.name }}</span>
@@ -30,6 +30,9 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    this.handleSelectMunu(0);
   },
   methods: {
     handleSelectMunu(index) {

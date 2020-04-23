@@ -14,6 +14,7 @@ Sortable.mount(new MultiDrag(), new Swap());
 export default {
   data() {
     return {
+      // x轴的数据，定义表头使用和定位使用
       x: [
         { value: "time", label: "" },
         { value: "mon", label: "星期一" },
@@ -24,6 +25,7 @@ export default {
         { value: "sat", label: "星期六" },
         { value: "sun", label: "星期日" }
       ],
+      // 要渲染的表格数据
       schedule: [
         {
           time: "9:00~10:00",
@@ -71,21 +73,23 @@ export default {
       return "";
     },
     initDrag() {
+      // 找出每一行（tr）
       const children = document.querySelector(
         `.drag-table .el-table__body-wrapper tbody`
       ).children;
 
+      // 给每一行添加列表拖拽，实现单元格拖拽
       for (let index = 0; index < children.length; index++) {
         const el = children.item(index);
         Sortable.create(el, {
           group: {
-            name: "shared",
-            // pull: "clone"
+            name: "shared", // 定义为可列表间拖拽
           },
-          swap: true,
-          filter: ".filtered",
+          swap: true, // 交换属性
+          filter: ".filtered", // 过滤不能拖拽
           onEnd: evt => {
             // console.log("onEnd", evt);
+            // 更新数据，这里暂时直接通过交换数据来拖拽，实际情况是会通过接口更新再拉取列表实现
             this.updateData({
               oldRowIndex: evt.from.rowIndex,
               newRowIndex: evt.to.rowIndex,
@@ -108,7 +112,7 @@ export default {
       schedule[newRowIndex][newProperty] = oldValue;
       schedule[oldRowIndex][OldProperty] = newValue;
 
-      // 强刷
+      // 强制刷新
       this.schedule = [];
       this.$nextTick(() => {
         this.schedule = schedule;
